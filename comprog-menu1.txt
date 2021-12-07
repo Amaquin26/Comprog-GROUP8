@@ -1,0 +1,305 @@
+#include <iostream>
+
+using namespace std;
+
+    //Global Variable
+    const int SIZE = 10;
+    string validUsers[SIZE] = {"user1","user2","user3"};
+    string validPasswords[SIZE] = {"default","admin","123"};
+    int validUsersSize = sizeof(validUsers)/sizeof(validUsers[0]);
+    int validPasswordsSize = sizeof(validPasswords)/sizeof(validPasswords[0]);
+
+    string registeredFNames[SIZE] = {"John","Jenny","Jack"};
+    string registeredLNames[SIZE] = {"Cruz","Cabrera","Stalk"};
+    char correspondingGender [SIZE] = {'M','F','M'};
+    int correspondingMM [SIZE] = {5,1,6};
+    int correspondingDD [SIZE] = {15,26,13};
+    int correspondingYY [SIZE] = {2002,1998,1995};
+
+    int generalSize = validUsersSize;
+
+    int ID;
+
+    //Declaration of Functions
+    void RegisterAccount(string fName_,string lName_,string userName_,char gender_,int mm_,int dd_,int yy_);
+    void LogInValidator(string userNameAttempt_,string passwordAttempt_);
+    void LogIn();
+
+int main()
+{
+    int enter = -1;
+    cout << "Welcome to ---- " << endl;
+    cout << "Enter 0 to Register or Enter 1 to LogIn" << endl;
+
+    while(!(enter == 0 || enter == 1))
+    {
+        cout << "Please Enter 0-1: "; cin >> enter;
+        if(enter == 0)
+        {
+            cout << "Welcome new user! Please enter all the information needed" << endl;
+            string fName,lName,userName;
+            char gender;
+            int mm,dd,yy;
+            cout << "Enter Full Name" << endl;
+            cout << "Last Name: "; cin >> lName;
+            cout << "First Name: "; cin >> fName;
+            cout << "Enter Birth Date (mm/dd/yy) Please use numbers." << endl;
+            cout << "Month: "; cin >> mm;
+            cout << "Day: "; cin >> dd;
+            cout << "Year: "; cin >> yy;
+
+            //validation for gender
+            while(!((gender == 'M' || gender == 'm')||(gender == 'F' || gender == 'f')))
+            {
+                cout << "M or m for Male | F or f for Female" << endl;
+                cout << "Enter Gender: "; cin >> gender;
+                if(!((gender == 'M' || gender == 'm')||(gender == 'F' || gender == 'f')))
+                    cout << "Please enter a valid character." << endl;
+            }
+
+            cout << "Enter Username: "; cin >> userName;
+            //The user will be able to add password after the userName is validated
+
+            //pass in the data to RegisterAccount function
+            RegisterAccount(fName,lName,userName,gender,mm,dd,yy);
+
+        }else if(enter == 1)
+        {
+            //Call the LogIn Function
+            LogIn();
+        }else
+        {
+            cout << "Sorry, please enter a valid number." << endl;
+        }
+    }
+        return 0;
+}
+
+void RegisterAccount(string fName_,string lName_,string userName_,char gender_,int mm_,int dd_,int yy_)
+{
+    //bool for checking registered info
+    bool isExisting = true;
+    bool allowToReEnter = false;
+
+    //Assigning passed string values to new strings
+    string userN = userName_;
+    string firstN = fName_;
+    string lastN = lName_;
+    char gender = gender_;
+    int month = mm_;
+    int day = dd_;
+    int year = yy_;
+
+    //password string variable to added after the validation
+    string password;
+
+    //Summary
+    //isExisting is set to true, assuming that the input already existed
+    //Compare every element to the input, if it did not exist then isExisting is false. We can exit the loop
+    //If the input match to a specific element then it existed, and the user need to input another username
+     while(isExisting)
+    {
+        for(int i = 0; i < validUsersSize;)
+        {
+            if(!isExisting){
+                i = 0;
+                break;
+            }
+
+            if(allowToReEnter)
+            {
+                cout << "Please Enter Another Username" << endl;
+                cout << "Enter Another Username: "; cin >> userN;
+            }
+
+                if(validUsers[i] != userN)
+                {
+                    for(int j=i+1;j< validUsersSize;j++)
+                    {
+                        if(validUsers[j] != userN)
+                        {
+                            i++;
+                                if(j == validUsersSize - 1){
+                                    isExisting = false;
+                                    allowToReEnter = false;
+                                }
+                        }else
+                        {
+                            cout << "Sorry, " << validUsers[j] << " Already Exist" << endl;
+                            i = 0;
+                            j=0;
+                            isExisting = true;
+                            allowToReEnter = true;
+                            break;
+                        }
+                    }
+                }else
+                {
+                    cout << "Sorry, " << validUsers[i] << " Already Exist" << endl;
+                    isExisting = true;
+                    allowToReEnter = true;
+                    break;
+                }
+        }
+    }
+
+    //After successfully creating new username
+    //The new username is Added to the validUserName array
+    if(!isExisting)
+    {
+        for(int i = 0; i < validUsersSize; i++)
+        {
+            //cout << "[System] Adding UserName..." << endl; //Debugging
+            if(validUsers[i] == "")
+            {
+                //cout << "[System] UserName Added" << endl; //Debugging
+                validUsers[i] = userN;
+                isExisting = true;
+                i = 0;
+                break;
+            }
+
+            //Since all the sizes of array are the same. We can use the value of i + 1 to
+            //get the index of the right elemet of the array. Then, we can pass in the additional
+            //info to the right element of the array
+            int assigner = i +1;
+            registeredFNames[assigner] = firstN;
+            registeredLNames[assigner] = lastN;
+            correspondingGender[assigner] = gender;
+            correspondingMM[assigner] = month;
+            correspondingDD[assigner] = day;
+            correspondingYY[assigner] = year;
+        }
+    }
+
+    /* Remove comment to view each elements of the validUsers array (all valid user names)*/
+    for(string x: validUsers)
+        cout << x << endl;
+
+    //Create a Password is required after creating a password
+    cout << "Add Password: "; cin >> password;
+    for(int i = 0; i < validPasswordsSize; i++)
+    {
+        if(validPasswords[i] == "")
+        {
+            validPasswords[i] = password;
+            break;
+        }
+    }
+
+    /* Remove comment to view each elements of the validPasswords array (all valid passwords)*/
+    for(string x: validPasswords){
+        cout << x << endl;
+    }
+
+    //User need to log in after successfully creating a new account
+    LogIn();
+}
+
+void LogInValidator(string userNameAttempt_,string passwordAttempt_)
+{
+    //Assigning passed string values to new strings
+    string userName = userNameAttempt_;
+    string passWord = passwordAttempt_;
+
+    //To check if the ID was found or not
+    bool IDfound = false;
+
+    //We will search for valid user name that correspond the username attempt
+    while(!IDfound)
+    {
+        for(int i = 0; i < validUsersSize;)
+        {
+            if(IDfound)
+            {
+                i = 0;
+                break;
+            }
+
+            if(validUsers[i] == userName)
+            {
+                IDfound = true;
+                ID = i;
+                break;
+            }
+            else
+            {
+                for(int j=i+1;j < validUsersSize; j++)
+                {
+                    if(validUsers[i] != userName)
+                    {
+                        i++;
+                        if(j == validUsersSize - 1)
+                        {
+                            //BUG
+                            cout << "Sorry but the account you tried to login doesn't exist" << endl;
+                            IDfound = false;
+                            j =0;
+                            i = 0;
+                            //RelogIn
+                            cout << "Please enter an existing Account" << endl;
+                            cout << "Enter Username: "; cin >> userName;
+                            cout << "Enter Password: "; cin>> passWord;
+                        }
+                    }
+                    else
+                    {
+                        ID = i;
+                        IDfound = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    bool passwordValid = false;
+    if(IDfound)
+    {
+        bool allowPassWordReEnter = false;
+
+        while(!passwordValid)
+        {
+            if(allowPassWordReEnter)
+            {
+                cout << "Enter Password: "; cin >> passWord;
+                allowPassWordReEnter = false;
+            }
+
+            if(validPasswords[ID] == passWord)
+            {
+                passwordValid = true;
+                break;
+            }else
+            {
+                cout << "Sorry, wrong password please try again." << endl;
+                allowPassWordReEnter = true;
+                passwordValid = false;
+            }
+        }
+
+
+    }
+
+    if(passwordValid)
+    {
+        cout << "Welcome " << registeredFNames[ID] << " " << registeredLNames[ID] << endl;
+        cout << "---Additional Details---" << endl;
+        cout << "Your gender is " << correspondingGender[ID] << endl;
+        cout << "Your Birth Date is (mm/dd/yy): " << correspondingMM[ID] << "/" << correspondingDD[ID] << "/" << correspondingYY[ID] << endl;
+        IDfound = false;
+        passwordValid = false;
+    }
+}
+
+void LogIn()
+{
+    string userNameAttempt, passwordAttempt;
+
+    cout << "Please enter your credentials" << endl;
+    cout << "Enter Username: "; cin >> userNameAttempt;
+    cout << "Enter Password: "; cin >> passwordAttempt;
+
+    //Pass values to validate
+    LogInValidator(userNameAttempt,passwordAttempt);
+}
