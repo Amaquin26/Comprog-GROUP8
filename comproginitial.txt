@@ -1,0 +1,214 @@
+#include <iostream>
+
+using namespace std;
+int main()
+{
+    //Variables for registered info
+    const int SIZE = 10;
+    string users[SIZE] = {"use1","use2","use3","use4","use5","use6"};
+    string passwords[SIZE] = {"default","admin","123","yeet","abc","admin"};
+    int passSize = sizeof(passwords)/sizeof(passwords[0]);
+    int useSize = sizeof(users)/sizeof(users[0]);
+
+//#region Register
+
+    //User Input
+    string user;
+    string pass;
+
+    //bool for checking registered info
+    bool  isExisting = true;
+
+    //Summary
+    //isExisting is set to true, assuming that the input already existed
+    //Compare every element to the input, if it did not exist then isExisting if false
+    //If the input match to a specific element then it existed, and the user need to input another username
+    while(isExisting)
+    {
+        for(int i = 0; i < useSize;)
+        {
+            if(!isExisting){
+                cout << "OKAY STOP!" << endl;
+                break;
+            }
+
+            cout << "The bool is " << isExisting << endl;
+            cout << "Start Element: " << i << endl;
+            cout << "Add Username: "; cin >> user;
+                if(users[i] != user)
+                {
+                    cout << "Element: " << i << endl;
+                    for(int j=i+1;j< useSize;j++)
+                    {
+                        if(users[j] != user)
+                        {
+                            cout << "Does not Exist: " << endl;
+                            cout << "Element j: " << j << endl;
+                            i++;
+                                if(j == useSize - 1){
+                                    cout << "Hey STOP!" << endl;
+                                    isExisting = false;
+                                }
+                        }else
+                        {
+                            cout << users[j] << " Already Exist" << endl;
+                            cout << "Element j: " << j << endl;
+                            cout << "Original Element: " << i << endl;
+                            i = 0;
+                            j=0;
+                            cout << "Updated Element: " << i << endl;
+                            cout << "Updated Element j: " << j << endl;
+                            isExisting = true;
+                            break;
+                        }
+                    }
+                }else
+                {
+                    cout << "Element: " << i << endl;
+                    cout << users[i] << " Already Exist" << endl;
+                    isExisting = true;
+                    break;
+                }
+        }
+    }
+
+    //After successfully creating new username
+    //The new username is Added to the validUserName array
+    if(!isExisting)
+    {
+        for(int i = 0; i < useSize; i++)
+        {
+            cout << "Adding UserName" << endl;
+
+
+            if(users[i] == "")
+            {
+                cout << "Empty Slot: " << i << endl;
+                cout << "Found Empty Slot" << endl;
+                users[i] = user;
+                isExisting = true;
+                i = 0;
+                cout << "Updated i: " << i << endl;
+                break;
+            }
+            //
+        }
+
+    }
+
+    //Summary for the Added Username
+    for(string n : users)
+    {
+        cout << n << endl;
+    }
+
+    //Maybe a new function
+    //Create a Password is required after creating a password
+    cout << "Add Password: "; cin >> pass;
+    for(int i = 0; i < passSize; i++)
+    {
+        if(passwords[i] == "")
+        {
+            passwords[i] = pass;
+            break;
+        }
+    }
+
+    //Summary
+    for(string x:passwords){
+        cout << x << endl;
+    }
+
+//#endregion
+
+    string userNameAttempt;
+    string passwordAttempt;
+
+    //Function for Logging in
+
+
+    int ID;
+    bool IDfound = false;
+
+    //We will search for valid user name that correspond the username attempt
+    while(!IDfound)
+    {
+        for(int i = 0; i < useSize;)
+        {
+            if(IDfound)
+            {
+                cout << "ACCOUNT VALIDATED" << endl;
+                i = 0;
+                break;
+            }
+
+            cout << "Is ID found: " << IDfound << endl;
+            cout << "Start Element: " << i << endl;
+            cout << "LOGIN" << endl;
+            cout << "Enter UserName: "; cin >> userNameAttempt;
+
+            if(users[i] == userNameAttempt)
+            {
+                cout << "ACCOUNT FOUND" << " |ELEMENT: " << i << endl;
+                IDfound = true;
+                ID = i;
+                break;
+            }
+            else
+            {
+                for(int j=i+1;j < useSize; j++)
+                {
+                    cout << "START j: " << j << endl;
+                    if(users[i] != userNameAttempt)
+                    {
+                        i++;
+                        if(j == useSize - 1)
+                        {
+                            cout << "ACCOUNT DOESN'T EXIST" << endl;
+                            IDfound = false;
+                            i = 0;
+                        }
+                    }
+                    else
+                    {
+                        cout << "ACCOUNT FOUND v2 | ELEMENT: " << i << endl;
+                        ID = i;
+                        IDfound = true;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    cout << "WOW GRAPE" << endl;
+
+    while(IDfound)
+    {
+        bool passwordValid;
+
+        if(passwordValid)
+        {
+            cout << "Welcome Back " << users[ID] << endl;
+            break;
+        }
+        cout << "Enter Password: "; cin >> passwordAttempt;
+
+        if(passwords[ID] == passwordAttempt)
+        {
+            passwordValid = true;
+        }else
+        {
+            cout << "Sorry, wrong password" << endl;
+        }
+
+    }
+    return 0;
+}
+
+
+
+
+
+
+
