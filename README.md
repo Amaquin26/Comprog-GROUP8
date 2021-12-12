@@ -1,3 +1,5 @@
 # Comprog-GROUP8
-Mini System
-(12/08/2021) NOTE: Ako gi remove ang katong usa ka code kay dili pato final nya di sad to mao ako gi present pag ganiha. mo update rako diri 
+Mini System 
+UPDATE: Kanang menu_2and3 kay mao na ang pag implement nako sa transaction and paymemt method, not yet clean
+Please send inyong progress diri so I can check para ma apil sa atong program, and just chat lang group chat unsay concern or suggestion
+Hope you are checking github still waiting kekw
